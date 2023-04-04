@@ -2,6 +2,8 @@
 ####     Intel      ####
 ########################
 
+# Intel instance selection done at the Plan level
+
 ########################
 ####    Required    ####
 ########################
