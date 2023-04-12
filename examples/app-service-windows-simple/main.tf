@@ -24,12 +24,6 @@ module "windows-app-service" {
       application_stack = {
         node_version = "~18"
       }
-      
-    #   virtual_application = {
-    #     virtual_path = "/"
-    #     physical_path = "site\\wwwroot"
-    #     preload       = false
-    #   }
     }
   }
 }

@@ -1,31 +1,61 @@
-
-
 <p align="center">
-  <img src="./images/logo-classicblue-800px.png" alt="Intel Logo" width="250"/>
+  <img src="https://github.com/intel/terraform-intel-azure-app-service-windows/blob/main/images/logo-classicblue-800px.png?raw=true" alt="Intel Logo" width="250"/>
 </p>
 
-# Intel® Cloud Optimization Modules for Terraform
+# Intel Cloud Optimization Modules for Terraform
 
 © Copyright 2022, Intel Corporation
 
-## Module name
+## Intel Cloud Optimization Module - Azure App Service Windows Web App
+
+Module usage for creating an Azure App Service Windows Web App
 
 ## Usage
 
-See examples folder for code ./examples/intel-optimized-postgresql-server/main.tf
+**See examples folder for complete examples.**
 
-Example of main.tf
+By default, for the Windows App Web you only have to pass four variables
 
 ```hcl
-# Example of how to pass variable for database password:
-# terraform apply -var="db_password=..."
-# Environment variables can also be used https://www.terraform.io/language/values/variables#environment-variables
-
-# Provision Intel Cloud Optimization Module
-module "module-example" {
-  source = "github.com/intel/module-name"
+app_name
+resource_group_name
+service_plan_id
+settings = {
+    site_config = {
+      application_stack = {
+        node_version = "18-lts"
+      }
+    }
 }
 
+```
+
+An app service web app needs a App Service Plan, for that look at the [Intel App Service Plan module.](https://registry.terraform.io/modules/intel/azure-app-service-plan/intel/latest)
+
+main.tf
+
+```hcl
+module "intel-optimized-service-plan" {
+  source              = "intel/azure-app-service-plan/intel"
+  service_plan_name   = "windows-service-plan-103"
+  resource_group_name = "terraform-testing-rg"
+  os_type             = "Windows"
+}
+
+module "windows-app-service" {
+  source              = "intel/azure-app-service-windows/intel"
+  app_name            = "windows-app-service-103"
+  resource_group_name = "terraform-testing-rg"
+  service_plan_id     = module.intel-optimized-service-plan.id
+  #Site_config is required. See docs at https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#site_config
+  settings = {
+    site_config = {
+      application_stack = {
+        node_version = "~18"
+      }
+    }
+  }
+}
 ```
 
 Run Terraform
@@ -33,10 +63,9 @@ Run Terraform
 ```hcl
 terraform init  
 terraform plan
-terraform apply
-
+terraform apply 
 ```
 
-Note that this example may create resources. Run `terraform destroy` when you don't need these resources anymore.
+## Considerations
 
-## Considerations  
+Site_config is required <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#site_config>
