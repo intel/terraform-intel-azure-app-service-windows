@@ -3,6 +3,7 @@
 ########################
 
 # Intel instance selection done at the Plan level
+# See https://registry.terraform.io/modules/intel/azure-app-service-plan/intel/latest
 
 ########################
 ####    Required    ####
@@ -23,6 +24,14 @@ variable "service_plan_id" {
   description = "The ID of the App Service Plan within which to create this Windows Web App Service."
   type        = string
 }
+
+# This variable block is used for the site_config block and others
+variable "settings" {
+  description = "A block of settings which can be used for various features of the App Service, see examples folder for details on how to use it."
+  default     = false
+  type        = any
+}
+
 ########################
 ####     Other      ####
 ########################
@@ -85,18 +94,6 @@ variable "identity_type" {
   description = "The type of identity to use for the App Service. Possible values are SystemAssigned and UserAssigned."
   type        = string
   default     = "SystemAssigned"
-}
-
-variable "settings" {
-  description = "A block of settings which can be used for various features of the App Service, see examples folder for details on how to use it."
-  default     = false
-  type        = any
-}
-
-variable "site_config" {
-  description = "A site_config block, see examples folder for details on how to use it."
-  type        = any
-  default     = {}
 }
 
 variable "tags" {

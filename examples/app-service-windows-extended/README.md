@@ -69,6 +69,7 @@ module "windows-app-service" {
     "key2" = "value2"
     "key3" = "value3"
   }
+  # Tags
   tags = {
     "Owner"    = "user@company.com"
     "Duration" = "4"

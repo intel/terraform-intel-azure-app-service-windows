@@ -10,7 +10,7 @@
 
 This file documents the HashiCorp Sentinel policies that apply to this module
 
-Note: Intel Instance specific policies are available in the Azure Service Plan Module
+Note: Intel Instance specific policies are available in the [Azure Service Plan Module](https://registry.terraform.io/modules/intel/azure-app-service-plan/intel/latest)
 
 ## Policy 1
 

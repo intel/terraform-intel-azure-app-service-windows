@@ -43,10 +43,6 @@ module "intel-optimized-service-plan" {
   service_plan_name   = "windows-service-plan-103"
   resource_group_name = "terraform-testing-rg"
   os_type             = "Windows"
-  tags = {
-    "Owner"    = "user@company.com"
-    "Duration" = "4"
-  }
 }
 
 # Create App Service
@@ -78,4 +74,6 @@ terraform apply
 
 ## Considerations
 
-settings.site_config is required <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#site_config>
+Settings.site_config is required, documentation link:
+
+<https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#site_config>

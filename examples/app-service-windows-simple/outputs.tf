@@ -16,12 +16,6 @@ output "web_app_url" {
 
 }
 
-output "web_app_identity" {
-  description = "The identity of the App Service."
-  value       = module.windows-app-service.web_app_identity
-
-}
-
 output "web_app_kind" {
   description = "The kind of the App Service."
   value       = module.windows-app-service.web_app_kind

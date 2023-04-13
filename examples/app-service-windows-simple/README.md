@@ -56,6 +56,7 @@ module "windows-app-service" {
   app_name            = "windows-app-service-103"
   resource_group_name = "terraform-testing-rg"
   service_plan_id     = module.intel-optimized-service-plan.id
+  # Tags
   tags = {
     "Owner"    = "user@company.com"
     "Duration" = "4"

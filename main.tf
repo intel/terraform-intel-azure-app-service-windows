@@ -388,9 +388,9 @@ resource "azurerm_windows_web_app" "web_app" {
   }
 }
 
+# VNET Integration - Set var.web_app_vnet_integration_enabled = true to enable and provide the subnet id via var.vnet_integration_subnet_id
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
   count = var.web_app_vnet_integration_enabled ? 1 : 0
-
   app_service_id = azurerm_windows_web_app.web_app.id
   subnet_id      = var.vnet_integration_subnet_id
 }
