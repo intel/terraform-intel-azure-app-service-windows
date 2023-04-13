@@ -175,25 +175,24 @@ resource "azurerm_windows_web_app" "web_app" {
 
         content {
           physical_path = lookup(var.settings.site_config.virtual_application, "physical_path", null)
-          preload = lookup(var.settings.site_config.virtual_application, "preload", null)
-          virtual_path = lookup(var.settings.site_config.virtual_application, "virtual_path", null)
+          preload       = lookup(var.settings.site_config.virtual_application, "preload", null)
+          virtual_path  = lookup(var.settings.site_config.virtual_application, "virtual_path", null)
         }
       }
 
       dynamic "ip_restriction" {
-        for_each = lookup(var.settings.site_config, "ip_restriction", {}) != {} ? [1] : []
+        for_each = lookup(var.settings.site_config, "ip_restriction", []) != [] ? lookup(var.settings.site_config, "ip_restriction", []) : []
 
         content {
-          ip_address                = lookup(var.settings.site_config.ip_restriction, "ip_address", null)
-          service_tag               = lookup(var.settings.site_config.ip_restriction, "service_tag", null)
-          virtual_network_subnet_id = lookup(var.settings.site_config.ip_restriction, "virtual_network_subnet_id", null)
-          name                      = lookup(var.settings.site_config.ip_restriction, "name", null)
-          priority                  = lookup(var.settings.site_config.ip_restriction, "priority", null)
-          action                    = lookup(var.settings.site_config.ip_restriction, "actuib", null)
-
+          ip_address                = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "ip_address", null)
+          service_tag               = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "service_tag", null)
+          virtual_network_subnet_id = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "virtual_network_subnet_id", null)
+          name                      = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "name", null)
+          priority                  = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "priority", null)
+          action                    = lookup(var.settings.site_config.ip_restriction[ip_restriction.key], "action", null)
 
           dynamic "headers" {
-            for_each = lookup(var.settings.site_config.ip_restriction, "headers", {}) != {} ? [1] : []
+            for_each = lookup(var.settings.site_config, "headers", {}) != {} ? lookup(var.settings.site_config, "headers", {}) : {}
 
             content {
               x_azure_fdid      = lookup(var.settings.site_config.ip_restriction.headers, "x_azure_fdid", null)
@@ -332,8 +331,10 @@ resource "azurerm_windows_web_app" "web_app" {
       app_settings.WEBSITE_RUN_FROM_PACKAGE,
       app_settings.MACHINEKEY_DecryptionKey,
       app_settings.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING,
-      app_settings.WEBSITE_CONTENTSHARE
+      app_settings.WEBSITE_CONTENTSHARE,
+      virtual_network_subnet_id
     ]
+
   }
 
   dynamic "backup" {
@@ -373,7 +374,7 @@ resource "azurerm_windows_web_app" "web_app" {
   dynamic "identity" {
     for_each = length(var.identity_ids) == 0 && var.identity_type == "SystemAssigned" ? [var.identity_type] : []
     content {
-      type = var.identity_type
+      type         = var.identity_type
       identity_ids = length(var.identity_ids) > 0 ? var.identity_ids : []
     }
   }
