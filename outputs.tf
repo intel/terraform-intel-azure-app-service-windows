@@ -1,0 +1,47 @@
+output "web_app_name" {
+  description = "The name of the App Service."
+  value       = azurerm_windows_web_app.web_app.name
+
+}
+
+output "web_app_id" {
+  description = "The ID of the App Service."
+  value       = azurerm_windows_web_app.web_app.id
+
+}
+
+output "web_app_url" {
+  description = "The URL of the App Service."
+  value       = azurerm_windows_web_app.web_app.default_hostname
+
+}
+
+output "web_app_identity" {
+  description = "The identity of the App Service."
+  value       = azurerm_windows_web_app.web_app.identity
+
+}
+
+output "web_app_kind" {
+  description = "The kind of the App Service."
+  value       = azurerm_windows_web_app.web_app.kind
+
+}
+
+output "outbound_ip_addresses" {
+  description = "The outbound IP addresses of the App Service."
+  value       = azurerm_windows_web_app.web_app.outbound_ip_addresses
+
+}
+
+output "possible_outbound_ip_addresses" {
+  description = "The possible outbound IP addresses of the App Service."
+  value       = azurerm_windows_web_app.web_app.possible_outbound_ip_addresses
+
+}
+
+output "site_credentials" {
+  description = "The site credentials of the App Service."
+  value       = azurerm_windows_web_app.web_app.site_credential
+  sensitive   = true
+}
